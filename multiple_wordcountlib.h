@@ -1,0 +1,7 @@
+#ifndef MULTIPLE_WORDCOUNTLIB_H
+#define MULTIPLE_WORDCOUNTLIB_H
+
+
+
+
+#endif
