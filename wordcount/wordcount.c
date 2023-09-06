@@ -9,17 +9,15 @@
 #include <stdlib.h>
 // include other standard header files or your own user defined libraries needed 
 
- 
-
 /*
  * YOUR COMMENTS
  */
 
-
-int main(int argc, char *arvg[])
+int
+main(int argc, char *arvg[])
 {
   // YOU NEED TO IMPLEMENT THIS + some other functions! 
  
   return 0;
 }
-   
+
