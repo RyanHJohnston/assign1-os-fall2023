@@ -40,6 +40,8 @@ int main(int argc, char *argv[]) {
 
     n = argc - 1;
     new_argv = get_argv(argc, argv);
+    successful_files = 0;
+    unsuccessful_files = 0;
 
     /* create n = argc - 1 child processes */
     for (i = 1; i < argc; ++i) {
@@ -57,11 +59,9 @@ int main(int argc, char *argv[]) {
                 perror("execl");
                 exit(2);
             }
-        
+
         }
-        
-        successful_files = 0;
-        unsuccessful_files = 0;
+
         cpid = wait(&status);
         if (WIFEXITED(status)) {
             exit_code = WEXITSTATUS(status);
@@ -72,15 +72,15 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-    
-        fprintf(stdout, "\n");
-        fprintf(stdout, "Parent process created %i child processes to count words in %i files\n",
-                n, successful_files + unsuccessful_files);
-        fprintf(stdout, "%i Have been counted successfully!\n", 
-                successful_files);
-        fprintf(stdout, "%i Files did not exist\n",
-                unsuccessful_files);
-    
+
+    fprintf(stdout, "\n");
+    fprintf(stdout, "Parent process created %i child processes to count words in %i files\n",
+            n, n);
+    fprintf(stdout, "%i Have been counted successfully!\n", 
+            successful_files);
+    fprintf(stdout, "%i Files did not exist\n",
+            unsuccessful_files);
+
 
     free_new_argv(argc, new_argv);
 
@@ -102,7 +102,7 @@ char ** get_argv(int argc, char **argv) {
 char *get_element_from_new_argv(int argc, char **new_argv, int element_index) {
     static int i;
     char *result_str;
-    
+
     if (element_index >= argc || element_index < 0) {
         fprintf(stderr, "ERROR: Fetching index out of bounds, returning -1\n");
         exit(EXIT_FAILURE);
@@ -132,7 +132,7 @@ int count_words_in_file(char *filename) {
         fprintf(stderr, "ERROR: wordcount with process pid_1 cannot open %s\n", filename);
         exit(EXIT_FAILURE);
     }
-    
+
 
     count = 0;
     while (ch != EOF) {
@@ -141,18 +141,18 @@ int count_words_in_file(char *filename) {
             ++count;
         }
     }
-    
+
     /* prints out the words in a file */
-    # if 0
+# if 0
     while (ch != EOF) {
         ch = fgetc(fp);
         fprintf(stdout, "%c", ch);
     }
-    #endif
-    
+#endif
+
     fclose(fp);
     fp = NULL;
-    
+
     return count;
 }
 
