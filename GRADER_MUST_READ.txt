@@ -1,0 +1,29 @@
+I'm not sure how you're going to test this project, but here are the MAKE commands to help you out.
+
+# Builds all object files
+make all
+
+# Removes all executables
+make clean
+
+# Builds only wordcount.o
+make wordcount
+
+# Builds only multiple_wordcount.o
+make multiple_wordcount
+
+# Runs all executables with input_txt files on both multiple and single wordcount files
+make run
+
+# Same thing as 'make run' except it runs with valgrind
+make valgrind_run
+
+# Runs only wordcount executable with input test files
+make run_wordcount
+
+# Runs only multiple_wordcount executable with input test files
+make run_multiple_wordcount
+
+# The rest are commands that run the executables with valgrind
+make valgrind_run_wordcount
+make valgrind_run_multiple_wordcount

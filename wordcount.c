@@ -41,6 +41,11 @@ int main(int argc, char *argv[]) {
     int i;
     char *result_str;
     int word_count;
+    
+    if (argc < 2) {
+        fprintf(stderr, "ERROR: Use at least one input file\n");
+        exit(EXIT_FAILURE);
+    }
 
     new_argv = get_argv(argc, argv);
     
@@ -102,7 +107,7 @@ int count_words_in_file(char *filename) {
     fp = fopen(filename, "r");
 
     if (fp == NULL) {
-        fprintf(stderr, "ERROR: wordcount with process pid_1 cannot open %s\n", filename);
+        fprintf(stderr, "ERROR: wordcount with process %ld cannot open %s\n", (long) getpid(), filename);
         exit(EXIT_FAILURE);
     }
     

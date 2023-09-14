@@ -1,0 +1,12 @@
+
+./wordcount.o input_file_1.txt
+wordcount with PID 33777 counted works in input file input_file_1.txt: number of words is 6
+./wordcount.o input_file_2.txt
+wordcount with PID 33778 counted works in input file input_file_2.txt: number of words is 26
+./multiple_wordcount.o input_file_1.txt input_file_2.txt
+wordcount with PID 33780 counted works in input file input_file_1.txt: number of words is 6
+wordcount with PID 33786 counted works in input file input_file_2.txt: number of words is 26
+
+Parent process created 2 child processes to count words in 2 files
+2 Have been counted successfully!
+0 Files did not exist
