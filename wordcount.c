@@ -1,3 +1,4 @@
+
 /*
  * File: wordcount.c
  * YOUR NAME ... YOU NEED TO IMPLEMENT THE FUNCTIONS HERE....
@@ -14,6 +15,7 @@
 #include <sys/unistd.h>
 #include <sys/wait.h>
 #include <sys/errno.h>
+#include <unistd.h>
 
 #define FILE_INDEX 1
 
@@ -46,8 +48,8 @@ int main(int argc, char *argv[]) {
   
     word_count = count_words_in_file(result_str);
 
-    fprintf(stdout, "wordcount with process pid_1 counted words in %s: number of words is %i\n", 
-            result_str, word_count);
+    fprintf(stdout, "wordcount with PID %ld counted works in input file %s: number of words is %i\n",
+            (long) getpid(), result_str, word_count);
     
     free(result_str);
     free_new_argv(argc, new_argv);

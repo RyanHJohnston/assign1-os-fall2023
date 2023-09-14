@@ -1,14 +1,16 @@
 CC = gcc
 CFLAGS = -Wall -g
 
-all: wordcount multiple_wordcount 
+all: multiple_wordcount wordcount 
 
 clean:
 	rm -f *.o wordcount
 
-wordcount: wordcount.c
-	$(CC) $(CFLAGS) wordcount.c -o wordcount
+wordcount:
+	$(CC) $(CFLAGS) wordcount. -o wordcount.o
 
-multiple_wordcount: wordcount.c
-	$(CC) $(CFLAGS) multiple_wordcount.c -o multiple_wordcount
+multiple_wordcount:
+	$(CC) $(CFLAGS) multiple_wordcount.c -o multiple_wordcount.o
 
+run wordcount:
+	valgrind ./wordcount.o

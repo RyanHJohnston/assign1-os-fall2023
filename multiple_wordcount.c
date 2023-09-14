@@ -1,23 +1,17 @@
 /*
- * File: wordcount.c
+ * File: multiple_wordcount.c
  * YOUR NAME ... YOU NEED TO IMPLEMENT THE FUNCTIONS HERE....
  *
  * ....
  */
-
-#include <signal.h>
-#include <stddef.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/unistd.h>
+#include <errno.h>
 #include <sys/wait.h>
-#include <sys/errno.h>
+#include <sys/unistd.h>
+#include <sys/types.h>
 
-#define FILE_INDEX 1
-
-/********************* HELPER FUNCTIONS ***************************/
 
 char **get_argv(int argc, char **argv);
 
@@ -31,34 +25,66 @@ void free_new_argv(int argc, char **new_argv);
 
 pid_t r_wait(int *stat_loc);
 
-
-/******************* DRIVER FUNCTION ********************************/
 int main(int argc, char *argv[]) {
-    
-    char **new_argv;
+
     int i;
-    char *result_str;
-    int word_count;
+    int n;
+    int exit_code;
+    int status;
+    int successful_files;
+    int unsuccessful_files;
+    char **new_argv;
+    pid_t cpid;
+    char *filename;
+    FILE *fp;
 
+    n = argc - 1;
     new_argv = get_argv(argc, argv);
-    
-    result_str = get_element_from_new_argv(argc, new_argv, FILE_INDEX);
-  
-    word_count = count_words_in_file(result_str);
 
-    fprintf(stdout, "wordcount with process pid_1 counted words in %s: number of words is %i\n", 
-            result_str, word_count);
+    /* create n = argc - 1 child processes */
+    for (i = 1; i < argc; ++i) {
+        cpid = fork();
+
+        if (cpid == -1) {
+            fprintf(stderr, "ERROR: Failed to fork child process\n");
+            exit(-1);
+        }
+
+        if (cpid == 0) {
+            system("cc wordcount.c -o wordcount.o");
+
+            if (execl("./wordcount.o", "wordcount.c", new_argv[i], (char *)NULL) == -1) {
+                perror("execl");
+                exit(2);
+            }
+        
+        }
     
-    free(result_str);
+        cpid = wait(&status);
+        if (WIFEXITED(status)) {
+            exit_code = WEXITSTATUS(status);
+            if (exit_code == 0) {
+                ++successful_files;
+            } else {
+                ++unsuccessful_files;
+            }
+        }
+    }
+    
+        fprintf(stdout, "\n");
+        fprintf(stdout, "Parent process created %i child processes to count words in %i files\n",
+                n, successful_files + unsuccessful_files);
+        fprintf(stdout, "%i Have been counted successfully!\n", 
+                successful_files);
+        fprintf(stdout, "%i Files did not exist\n",
+                unsuccessful_files);
+    
+
     free_new_argv(argc, new_argv);
 
-
-    exit(EXIT_SUCCESS);
+    return 0;
 }
 
-
-
-/******************* HELPER FUNCTION DEFINITIONS *********************/
 char ** get_argv(int argc, char **argv) {
     char **new_argv = malloc((argc + 1) * sizeof(*new_argv));
     for (int i = 0; i < argc; ++i) {
@@ -147,4 +173,5 @@ pid_t r_wait(int *stat_loc) {
     while (((reval == (wait(stat_loc) == -1) && errno == EINTR)));
     return reval;
 }
+
 
