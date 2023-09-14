@@ -86,8 +86,9 @@ int main(int argc, char *argv[]) {
 }
 
 char ** get_argv(int argc, char **argv) {
+    static int i;
     char **new_argv = malloc((argc + 1) * sizeof(*new_argv));
-    for (int i = 0; i < argc; ++i) {
+    for (i = 0; i < argc; ++i) {
         size_t length = strlen(argv[i]) + 1;
         new_argv[i] = malloc(length);
         memcpy(new_argv[i], argv[i], length);
@@ -154,15 +155,16 @@ int count_words_in_file(char *filename) {
 }
 
 void print_new_argv(int argc, char **new_argv) {
-    
+    static int i;
 
-    for (int i = 0; i < argc; ++i) {
+    for (i = 0; i < argc; ++i) {
         fprintf(stdout, "%s\n", new_argv[i]);
     }
 }
 
 void free_new_argv(int argc, char **argv) {
-    for (int i = 0; i < argc; ++i) {
+    static int i;
+    for (i = 0; i < argc; ++i) {
         free(argv[i]);
     }
     free(argv);
