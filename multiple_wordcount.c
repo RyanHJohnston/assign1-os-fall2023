@@ -59,14 +59,16 @@ int main(int argc, char *argv[]) {
             }
         
         }
-    
+        
+        successful_files = 0;
+        unsuccessful_files = 0;
         cpid = wait(&status);
         if (WIFEXITED(status)) {
             exit_code = WEXITSTATUS(status);
             if (exit_code == 0) {
-                ++successful_files;
+                successful_files += 1;
             } else {
-                ++unsuccessful_files;
+                unsuccessful_files += 1;
             }
         }
     }
